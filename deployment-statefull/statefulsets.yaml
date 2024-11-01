@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: statefull-postgresql-statefulset
+spec:
+  serviceName: statefull-postgresql-service
+  selector:
+    matchLabels:
+      app: statefull-postgresql-statefulset
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: statefull-postgresql-statefulset
+    spec:
+      containers:
+        - name: statefull-postgresql-statefulset
+          image: postgres:17-alpine
+          volumeMounts:
+            - name: statefull-postgresql-statefulset-disk
+              mountPath: /data
+          env:
+            - name: POSTGRES_PASSWORD
+              value: testpassword
+            - name: PGDATA
+              value: /data/pgdata
+  volumeClaimTemplates:
+    - metadata:
+        name: statefull-postgresql-statefulset-disk
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
