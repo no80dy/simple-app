@@ -14,7 +14,7 @@ async def pg_command(query: Query):
         dbname="testdb",
         user="postgres",
         password="testpassword",
-        host="127.0.0.1",
+        host="statefull-postgresql-service",
         port="5432"
     )
     cursor = connection.cursor()
